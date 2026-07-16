@@ -19,10 +19,11 @@ export default function LayoutWrapper({
   }
 
   return (
-    <div className="flex flex-row">
+    <div className="min-h-screen">
       <Sidebar />
-      <div className="w-64"></div>
-      <div className=" w-full">{children}</div>
+      <main className="ml-64 min-h-screen">
+        {children}
+      </main>
     </div>
   );
 }
