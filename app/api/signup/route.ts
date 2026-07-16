@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/postgres";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
@@ -38,9 +39,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     await query(
       "INSERT INTO users (full_name, email, password) VALUES ($1, $2, $3)",
-      [fullName, email, password]
+      [fullName, email, hashedPassword]
     );
 
     return NextResponse.json(

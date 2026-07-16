@@ -1,4 +1,5 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function LoginPage() {
@@ -6,7 +7,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -22,12 +23,13 @@ export default function LoginPage() {
       });
 
       const data = await response.json();
-      localStorage.setItem("JWT", data.token);
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
+      localStorage.setItem("JWT", data.token);
       console.log(data);
       setMessage(data.message || "Login successful");
+      router.replace("/");
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : "Something went wrong",

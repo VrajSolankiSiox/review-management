@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/postgres";
-import jwt from "jsonwebtoken"
-
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   try {
@@ -42,7 +42,9 @@ export async function POST(request: Request) {
 
     const storedUser = existingUser[0];
 
-    if (storedUser.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, storedUser.password);
+
+    if (!isPasswordValid) {
       return NextResponse.json(
         { error: "Credentials are wrong. Login unsuccessful." },
         { status: 401 }

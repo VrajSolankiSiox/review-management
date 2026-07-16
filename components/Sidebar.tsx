@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { House, Palette, Star, User } from "lucide-react";
+import { House, LogOut, Palette, Star, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const router = useRouter();
   const navItems = [
     {
       name: "Home",
@@ -26,8 +28,9 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 h-screen bg-white border-r border-gray-200 flex flex-col">
+    <aside className="w-64 h-screen fixed bg-white border-r border-gray-200 flex flex-col">
       {/* Logo */}
+
       <div className="px-6 py-6 border-b border-gray-200">
         <h1 className="text-2xl font-bold text-gray-900">Review Management</h1>
       </div>
@@ -54,6 +57,16 @@ export default function Sidebar() {
       <div className="border-t border-gray-200 p-5 text-sm text-gray-500">
         © 2026
       </div>
+      <button
+        onClick={() => {
+          localStorage.removeItem("JWT");
+          router.replace("/login");
+        }}
+        className="group inline-flex items-center gap-2 rounded-lg border border-red-200 bg-white px-4 py-2 text-sm font-medium text-red-600 shadow-sm transition-all duration-200 hover:border-red-500 hover:bg-red-500 hover:text-white hover:shadow-md active:scale-95 cursor-pointer"
+      >
+        <LogOut className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+        <span>Logout</span>
+      </button>
     </aside>
   );
 }

@@ -21,7 +21,8 @@ export default function LayoutWrapper({
   return (
     <div className="flex flex-row">
       <Sidebar />
-      <div className="flex-1">{children}</div>
+      <div className="w-64"></div>
+      <div className=" w-full">{children}</div>
     </div>
   );
 }
