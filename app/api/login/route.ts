@@ -28,8 +28,8 @@ export async function POST(request: Request) {
       ADD COLUMN IF NOT EXISTS full_name TEXT
     `);
 
-    const existingUser = await query<{ email: string; password: string }>(
-      "SELECT email, password FROM users WHERE email = $1",
+    const existingUser = await query<{ email: string; password: string; full_name: string }>(
+      "SELECT email, password, full_name FROM users WHERE email = $1",
       [email]
     );
 
@@ -51,11 +51,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const payload = { user: storedUser.email  };
+    const payload = { user: storedUser.email, full_name: storedUser.full_name };
     const secretKey= process.env.JWTSECRET;
 
-    const token = jwt.sign(payload,secretKey )
-    const decoded = jwt.verify(token, secretKey);
+    const token = jwt.sign(payload,secretKey as string )
+    const decoded = jwt.verify(token, secretKey as string);
 
     console.log(decoded);
     return NextResponse.json(

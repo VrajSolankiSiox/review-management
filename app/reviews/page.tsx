@@ -133,7 +133,7 @@ export default function ReviewsPage() {
               <thead className="bg-slate-100 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-4 py-3">Date</th>
-                  <th className="px-4 py-3">Hotel Slug</th>
+                  {/* <th className="px-4 py-3">Hotel Slug</th> */}
                   <th className="px-4 py-3">Rating</th>
                   <th className="px-4 py-3">Customer</th>
                   <th className="px-4 py-3">Review</th>
@@ -143,19 +143,27 @@ export default function ReviewsPage() {
               <tbody className="divide-y divide-slate-100">
                 {isLoading ? (
                   <tr>
-                    <td className="px-4 py-8 text-center text-slate-500" colSpan={6}>
+                    <td
+                      className="px-4 py-8 text-center text-slate-500"
+                      colSpan={6}
+                    >
                       Loading reviews...
                     </td>
                   </tr>
                 ) : sortedReviews.length ? (
                   sortedReviews.map((review, index) => (
-                    <tr key={review.id || `${review.slug}-${review.createdAt}-${index}`}>
+                    <tr
+                      key={
+                        review.id ||
+                        `${review.slug}-${review.createdAt}-${index}`
+                      }
+                    >
                       <td className="whitespace-nowrap px-4 py-4 text-slate-600">
                         {formatDate(review.createdAt)}
                       </td>
-                      <td className="whitespace-nowrap px-4 py-4 font-medium text-slate-900">
+                      {/* <<td className="whitespace-nowrap px-4 py-4 font-medium text-slate-900">
                         {review.slug}
-                      </td>
+                      </td>> */}
                       <td className="whitespace-nowrap px-4 py-4">
                         <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 font-medium text-amber-700">
                           <Star size={14} fill="currentColor" />
@@ -184,7 +192,10 @@ export default function ReviewsPage() {
                   ))
                 ) : (
                   <tr>
-                    <td className="px-4 py-8 text-center text-slate-500" colSpan={6}>
+                    <td
+                      className="px-4 py-8 text-center text-slate-500"
+                      colSpan={6}
+                    >
                       No reviews submitted yet.
                     </td>
                   </tr>

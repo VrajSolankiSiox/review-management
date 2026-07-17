@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -8,6 +9,7 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
@@ -41,67 +43,70 @@ export default function LoginPage() {
 
   return (
     <div className="login-wrapper">
-      {/* 
-        Including CSS directly here for easy copy-pasting. 
-        In a larger app, you would move this to a .css module or use Tailwind/Styled Components.
-      */}
       <style>{`
+        /* Core Reset & Font */
         .login-wrapper {
           display: flex;
           align-items: center;
           justify-content: center;
           min-height: 100vh;
-          background-color: #ecfdf5; /* Soft mint background */
+          background-color: #f8fafc; /* Very light gray/blue matching the app background */
           font-family: system-ui, -apple-system, sans-serif;
           padding: 20px;
         }
         
+        /* Card Styling - matching the crisp white cards with subtle borders in the reference */
         .login-card {
           background: #ffffff;
-          padding: 48px 40px;
-          border-radius: 28px; /* Very curvy card */
-          box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.15); /* Soft green shadow */
+          padding: 40px;
+          border-radius: 12px;
+          border: 1px solid #e5e7eb;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
           width: 100%;
-          max-width: 400px;
+          max-width: 420px;
           box-sizing: border-box;
         }
 
+        /* Typography */
         .login-title {
-          color: #064e3b; /* Deep green */
-          font-size: 28px;
+          color: #111827; /* Dark slate for high contrast */
+          font-size: 32px;
           font-weight: 800;
-          text-align: center;
+          text-align: left;
           margin: 0 0 8px 0;
+          letter-spacing: -0.025em;
         }
         
         .login-subtitle {
-          color: #059669;
-          text-align: center;
+          color: #6b7280; /* Subtle gray matching the reference description text */
+          text-align: left;
           font-size: 15px;
           margin-bottom: 32px;
+          line-height: 1.5;
         }
 
+        /* Form Layout */
         .input-group {
-          margin-bottom: 24px;
+          margin-bottom: 20px;
         }
 
         .input-label {
           display: block;
-          color: #065f46;
+          color: #374151;
           font-weight: 600;
           font-size: 14px;
-          margin-bottom: 8px;
-          margin-left: 4px;
+          margin-bottom: 6px;
         }
 
+        /* Input Fields - clean styling with brand green focus */
         .input-field {
           width: 100%;
-          padding: 16px 20px;
-          border: 2px solid #d1fae5;
-          border-radius: 20px; /* Curvy inputs */
-          font-size: 16px;
-          color: #064e3b;
-          background-color: #f8fafc;
+          padding: 12px 16px;
+          border: 1px solid #d1d5db;
+          border-radius: 8px; /* Standard rounding, matching reference buttons */
+          font-size: 15px;
+          color: #111827;
+          background-color: #ffffff;
           transition: all 0.2s ease;
           box-sizing: border-box;
           outline: none;
@@ -112,29 +117,27 @@ export default function LoginPage() {
         }
 
         .input-field:focus {
-          border-color: #10b981; /* Bright green focus ring */
-          background-color: #ffffff;
-          box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+          border-color: #059669; /* Brand Green */
+          box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
         }
 
+        /* Submit Button - matching the "Create QR Code" button in the image */
         .submit-btn {
           width: 100%;
-          padding: 16px;
-          background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+          padding: 12px 16px;
+          background-color: #008751; /* Darker brand green matching the image */
           color: white;
           border: none;
-          border-radius: 9999px; /* Fully curvy pill shape */
-          font-size: 16px;
-          font-weight: 700;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 8px 20px -6px rgba(5, 150, 105, 0.5);
+          transition: background-color 0.2s ease;
           margin-top: 8px;
         }
 
         .submit-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 24px -8px rgba(5, 150, 105, 0.6);
+          background-color: #007043;
         }
         
         .submit-btn:active {
@@ -142,33 +145,55 @@ export default function LoginPage() {
         }
 
         .submit-btn:disabled {
-          opacity: 0.8;
-          cursor: wait;
+          opacity: 0.7;
+          cursor: not-allowed;
           transform: none;
-          box-shadow: 0 8px 20px -6px rgba(5, 150, 105, 0.5);
         }
 
+        /* Helper Links */
+        .switch-link {
+          display: block;
+          text-align: center;
+          margin-top: 24px;
+          color: #008751;
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
+
+        .switch-link:hover {
+          color: #007043;
+          text-decoration: underline;
+        }
+
+        /* Status Messages */
         .status-message {
           margin-top: 16px;
           text-align: center;
           font-size: 14px;
-          color: #065f46;
+          padding: 12px;
+          border-radius: 6px;
         }
 
         .status-message.success {
+          background-color: #ecfdf5;
           color: #047857;
-          font-weight: 600;
+          border: 1px solid #a7f3d0;
         }
 
         .status-message.error {
+          background-color: #fef2f2;
           color: #b91c1c;
-          font-weight: 600;
+          border: 1px solid #fecaca;
         }
       `}</style>
 
       <div className="login-card">
         <h2 className="login-title">Welcome Back</h2>
-        <p className="login-subtitle">Sign in to your account</p>
+        <p className="login-subtitle">
+          Sign in to your account to continue managing your reviews.
+        </p>
 
         <form onSubmit={handleSubmit}>
           {/* Email Field */}
@@ -209,13 +234,17 @@ export default function LoginPage() {
           </button>
 
           {message ? (
-            <p
-              className={`status-message ${message.includes("successful") ? "success" : "error"}`}
+            <div
+              className={`status-message ${message.toLowerCase().includes("successful") ? "success" : "error"}`}
             >
               {message}
-            </p>
+            </div>
           ) : null}
         </form>
+
+        <Link href="/signup" className="switch-link">
+          Don&apos;t have an account? Sign up here
+        </Link>
       </div>
     </div>
   );

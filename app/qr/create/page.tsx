@@ -253,7 +253,7 @@ export default function CreateQrPage() {
         setBorderRadius(savedLink.borderRadius ?? 16);
         setQrModuleRadius(savedLink.qrModuleRadius ?? 0);
         setQrModuleGap(savedLink.qrModuleGap ?? 0);
-        setSaveMessage(`Editing saved QR code ${savedLink.slug}.`);
+        // setSaveMessage(`Editing saved QR code ${savedLink.slug}.`);
       } catch {
         if (!localLink && !cancelled) {
           setSaveMessage("Could not load that saved QR code.");
@@ -329,7 +329,7 @@ export default function CreateQrPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 p-6 text-slate-800">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:flex-row">
+      <div className=" flex max-w-6xl flex-col gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:flex-row">
         {/* Left Column: Controls */}
         <div className="flex-1 space-y-8">
           <div>
@@ -468,12 +468,12 @@ export default function CreateQrPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => window.open(url, "_blank")}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 font-medium text-white transition-colors hover:bg-indigo-700"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-3 font-medium text-white transition-colors hover:bg-indigo-700"
               >
                 <LinkIcon size={18} /> Preview
               </button>
 
-              <button
+              {/* <button
                 onClick={() => {
                   setSlug(createRandomSlug());
                   setName("");
@@ -483,13 +483,13 @@ export default function CreateQrPage() {
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-700 px-4 py-3 font-medium text-white transition-colors hover:bg-slate-600"
               >
                 <RefreshCw size={18} /> New QR Code
-              </button>
+              </button> */}
 
               <button
                 onClick={handleSave}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 font-medium text-white transition-colors hover:bg-slate-700"
               >
-                <Save size={18} /> Save QR Code
+                <Save size={18} /> Save
               </button>
 
               <button
