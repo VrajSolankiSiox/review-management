@@ -56,7 +56,11 @@ function createRandomSlug() {
   return Array.from(bytes, (byte) => alphabet[byte % alphabet.length]).join("");
 }
 
-function isFinderPatternModule(row: number, column: number, moduleCount: number) {
+function isFinderPatternModule(
+  row: number,
+  column: number,
+  moduleCount: number,
+) {
   const inTop = row < 7;
   const inLeft = column < 7;
   const inRight = column >= moduleCount - 7;
@@ -353,9 +357,7 @@ export default function CreateQrPage() {
               </label>
 
               <div>
-                <span className="text-xs text-slate-500 mb-1 block">
-                  Name
-                </span>
+                <span className="text-xs text-slate-500 mb-1 block">Name</span>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -402,7 +404,7 @@ export default function CreateQrPage() {
                   Quiet Zone / Margin ({qrMargin})
                   <input
                     type="range"
-                    min="0"
+                    min="1"
                     max="10"
                     value={qrMargin}
                     onChange={(e) => setQrMargin(Number(e.target.value))}
@@ -517,7 +519,7 @@ export default function CreateQrPage() {
             {qrSvg ? (
               <div
                 dangerouslySetInnerHTML={{ __html: qrSvg }}
-                className="transition-transform duration-300 group-hover:scale-105"
+                className="transition-transform duration-300  "
                 style={{ display: "flex" }} // Removes random bottom padding from inline SVGs
               />
             ) : (

@@ -203,8 +203,9 @@ export default function ReviewSlugPage({
     setIsSubmitting(true);
 
     try {
+      const synced = await saveInternalFeedback();
+
       if (rating <= 2) {
-        const synced = await saveInternalFeedback();
         setSubmitted(true);
         alert(
           synced
@@ -371,12 +372,10 @@ export default function ReviewSlugPage({
           >
             {isSubmitting ? (
               <Loader2 className="h-5 w-5 animate-spin" />
-            ) : googleReviewUrl && rating > 2 ? (
-              <ExternalLink className="h-5 w-5" />
-            ) : (
-              <Copy className="h-5 w-5" />
-            )}
-            {isSubmitting ? "Posting..." : "Copy & Post"}
+            ) : rating > 2 ? (
+              googleReviewUrl ? <ExternalLink className="h-5 w-5" /> : <Copy className="h-5 w-5" />
+            ) : null}
+            {isSubmitting ? "Posting..." : rating > 2 ? "Copy & Post" : "Post"}
           </button>
         </div>
 
