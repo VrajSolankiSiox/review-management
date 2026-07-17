@@ -110,7 +110,7 @@ export default function ReviewSlugPage({
           : "none selected";
       const guestDraft = reviewText.trim() || "Great";
 
-      const prompt = `Rewrite this hotel review so it is short, natural, and specific.
+      const prompt = `Rewrite this hotel review so it is medium length, natural, and specific.
       Guest draft: ${guestDraft}
       Rating: ${rating} out of 5 stars.
       Selected highlights: ${highlights}.
@@ -379,7 +379,7 @@ export default function ReviewSlugPage({
                 <Copy className="h-5 w-5" />
               )
             ) : null}
-            {isSubmitting ? "Posting..." : rating >= 3 ? "Copy & Post" : "Post"}
+            {isSubmitting ? "Posting..." : rating >= 3 ? "0" : "Post"}
           </button>
         </div>
 
