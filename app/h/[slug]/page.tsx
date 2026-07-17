@@ -372,10 +372,14 @@ export default function ReviewSlugPage({
           >
             {isSubmitting ? (
               <Loader2 className="h-5 w-5 animate-spin" />
-            ) : rating > 2 ? (
-              googleReviewUrl ? <ExternalLink className="h-5 w-5" /> : <Copy className="h-5 w-5" />
+            ) : rating >= 3 ? (
+              googleReviewUrl ? (
+                <ExternalLink className="h-5 w-5" />
+              ) : (
+                <Copy className="h-5 w-5" />
+              )
             ) : null}
-            {isSubmitting ? "Posting..." : rating > 2 ? "Copy & Post" : "Post"}
+            {isSubmitting ? "Posting..." : rating >= 3 ? "Copy & Post" : "Post"}
           </button>
         </div>
 
