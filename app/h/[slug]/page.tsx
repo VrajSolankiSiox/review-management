@@ -379,7 +379,7 @@ export default function ReviewSlugPage({
                 <Copy className="h-5 w-5" />
               )
             ) : null}
-            {isSubmitting ? "Posting..." : rating >= 3 ? "0" : "Post"}
+            {isSubmitting ? "Posting..." : rating >= 3 ? "Copy & Post" : "Post"}
           </button>
         </div>
 
