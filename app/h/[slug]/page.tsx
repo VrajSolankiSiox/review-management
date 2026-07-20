@@ -235,7 +235,7 @@ export default function ReviewSlugPage({
         </div>
 
         {/* Star Rating */}
-        <div className="mb-8 flex justify-center gap-3">
+        <div className="mb-2 flex justify-center gap-3">
           <div className="mb-8 flex justify-center gap-3">
             {Array.from({ length: 5 }).map((_, index) => (
               <button
@@ -248,8 +248,8 @@ export default function ReviewSlugPage({
                 aria-label={`Rate ${index + 1} star`}
               >
                 <Star
-                  size={30}
-                  strokeWidth={2.5}
+                  size={40}
+                  strokeWidth={2}
                   className={`transition-colors duration-200 ${
                     index < (hoverRating || rating)
                       ? "fill-amber-400 text-amber-400"
@@ -262,19 +262,38 @@ export default function ReviewSlugPage({
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <input
-            value={customerName}
-            onChange={(e) => setCustomerName(e.target.value)}
-            placeholder="Name (optional)"
-            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
-          />
-          <input
-            type="email"
-            value={customerEmail}
-            onChange={(e) => setCustomerEmail(e.target.value)}
-            placeholder="Email (optional)"
-            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
-          />
+          <div className="space-y-1">
+            <label
+              htmlFor="customer-name"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Name
+            </label>
+            <input
+              id="customer-name"
+              value={customerName}
+              placeholder="John Doe"
+              onChange={(e) => setCustomerName(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 focus:border-indigo-500 focus:outline-none"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label
+              htmlFor="customer-email"
+              className="block text-sm font-medium text-slate-700"
+            >
+              Email
+            </label>
+            <input
+              id="customer-email"
+              type="email"
+              placeholder="example@gmail.com"
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 focus:border-indigo-500 focus:outline-none"
+            />
+          </div>
         </div>
 
         {/* Language Selection */}
