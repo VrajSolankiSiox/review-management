@@ -10,7 +10,11 @@ interface SidebarProps {
 export default function Sidebar({ onNavigate }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [userName, setUserName] = useState<{ firstName: string; lastName: string; email: string } | null>(null);
+  const [userName, setUserName] = useState<{
+    firstName: string;
+    lastName: string;
+    email: string;
+  } | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -66,11 +70,10 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-64 h-screen fixed bg-white border-r border-gray-200 flex flex-col justify-between z-20">
+    <aside className="top-0 left-0 w-full max-w-[18rem] md:w-64 h-full md:h-screen fixed bg-white border-r border-gray-200 flex flex-col justify-between z-20">
       <div>
         {/* Logo Section */}
         <div className="relative flex items-center border-b border-gray-200 px-6 py-8 overflow-hidden min-h-[120px]">
-
           <div className="flex items-center   z-10">
             {/* <img 
               src="/WebsiteLogo.png" 
@@ -78,9 +81,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
               className="h-10 w-10 shrink-0 object-contain" 
             /> */}
             <h1 className="text-3xl font-bold  text-slate-900  ">
-              <span className="block text-2xl">
-                Review
-              </span>
+              <span className="block text-2xl">Review</span>
               <span className="text-lg  font-medium text-slate-500 block">
                 Management
               </span>
@@ -107,10 +108,12 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${isActive
-                  ? "bg-green-50 text-green-700  "
-                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
+                onClick={() => onNavigate?.()}
+                className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "bg-green-50 text-green-700"
+                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                }`}
               >
                 <Icon
                   size={18}

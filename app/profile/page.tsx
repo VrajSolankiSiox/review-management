@@ -154,7 +154,7 @@ export default function ProfilePage() {
   if (!email) return null; // Loading state
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6  text-slate-900">
+    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900">
       <div className="  max-w-7xl space-y-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>

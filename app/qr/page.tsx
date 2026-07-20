@@ -71,7 +71,7 @@ export default function QrPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-50 p-6 text-slate-900">
+    <main className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900">
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -153,7 +153,7 @@ export default function QrPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                   <Link
                     href={`/qr/create?slug=${encodeURIComponent(link.slug)}`}
                     className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition hover:bg-slate-700"
@@ -175,7 +175,7 @@ export default function QrPage() {
                     type="button"
                     onClick={() => downloadSavedQr(link)}
                     disabled={!link.qrSvg}
-                    className="col-span-2 inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
+                    className="sm:col-span-2 inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:bg-slate-300"
                   >
                     <Download size={15} />
                     Export SVG

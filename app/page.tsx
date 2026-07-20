@@ -58,7 +58,7 @@ const actions = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-50 p-6 text-slate-900 font-sans">
+    <main className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900 font-sans">
       <div className="  max-w-6xl space-y-8">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm">

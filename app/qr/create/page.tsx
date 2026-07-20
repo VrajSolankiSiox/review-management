@@ -7,7 +7,6 @@ import {
   Palette,
   Link as LinkIcon,
   Save,
-  RefreshCw,
   ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
@@ -192,7 +191,6 @@ export default function CreateQrPage() {
   const [borderRadius, setBorderRadius] = useState(16);
   const [qrModuleRadius, setQrModuleRadius] = useState(0);
   const [qrModuleGap, setQrModuleGap] = useState(0);
-  const [qrSvg, setQrSvg] = useState("");
   const [googleReviewUrl, setGoogleReviewUrl] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
 
@@ -200,21 +198,19 @@ export default function CreateQrPage() {
     return slug ? getReviewPageUrl(slug) : getReviewPageUrl("");
   }, [slug]);
 
-  useEffect(() => {
+  const qrSvg = useMemo(() => {
     try {
-      setQrSvg(
-        createRoundedQrSvg({
-          value: url,
-          size,
-          margin: qrMargin,
-          color,
-          background,
-          moduleRadius: qrModuleRadius,
-          moduleGap: qrModuleGap,
-        }),
-      );
+      return createRoundedQrSvg({
+        value: url,
+        size,
+        margin: qrMargin,
+        color,
+        background,
+        moduleRadius: qrModuleRadius,
+        moduleGap: qrModuleGap,
+      });
     } catch {
-      setQrSvg("");
+      return "";
     }
   }, [background, color, size, url, qrMargin, qrModuleRadius, qrModuleGap]);
 
@@ -328,8 +324,8 @@ export default function CreateQrPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6 text-slate-800">
-      <div className=" flex max-w-6xl flex-col gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm lg:flex-row">
+    <div className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-800">
+      <div className="flex w-full max-w-6xl flex-col gap-6 rounded-3xl border border-slate-200 bg-white p-4 sm:p-6 shadow-sm lg:flex-row">
         {/* Left Column: Controls */}
         <div className="flex-1 space-y-8">
           <div>
@@ -465,36 +461,24 @@ export default function CreateQrPage() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="grid gap-3 sm:grid-cols-3">
               <button
                 onClick={() => window.open(url, "_blank")}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-3 font-medium text-white transition-colors hover:bg-indigo-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-3 font-medium text-white transition-colors hover:bg-emerald-700"
               >
                 <LinkIcon size={18} /> Preview
               </button>
 
-              {/* <button
-                onClick={() => {
-                  setSlug(createRandomSlug());
-                  setName("");
-                  setGoogleReviewUrl("");
-                  setSaveMessage("");
-                }}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-700 px-4 py-3 font-medium text-white transition-colors hover:bg-slate-600"
-              >
-                <RefreshCw size={18} /> New QR Code
-              </button> */}
-
               <button
                 onClick={handleSave}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 font-medium text-white transition-colors hover:bg-slate-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-800 px-4 py-3 font-medium text-white transition-colors hover:bg-slate-700"
               >
                 <Save size={18} /> Save
               </button>
 
               <button
                 onClick={downloadQr}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 font-medium text-white transition-colors hover:bg-emerald-700"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 font-medium text-white transition-colors hover:bg-emerald-700"
               >
                 <Download size={18} /> Export SVG
               </button>
@@ -507,7 +491,7 @@ export default function CreateQrPage() {
         </div>
 
         {/* Right Column: Live Preview */}
-        <div className="flex min-h-100 flex-1 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 p-8">
+        <div className="flex min-h-80 w-full flex-1 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 p-6 sm:p-8">
           <div
             className="bg-white shadow-xl transition-all duration-300 flex items-center justify-center relative group"
             style={{

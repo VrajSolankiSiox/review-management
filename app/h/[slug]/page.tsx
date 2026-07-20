@@ -1,14 +1,7 @@
 "use client";
 
 import { use, useEffect, useState } from "react";
-import {
-  Building,
-  Copy,
-  ExternalLink,
-  Sparkles,
-  Loader2,
-  Star,
-} from "lucide-react";
+import { Copy, ExternalLink, Sparkles, Loader2, Star } from "lucide-react";
 import { getSavedGoogleReviewUrl, getSavedLinks } from "@/lib/review-links";
 
 const INTERNAL_FEEDBACK_KEY = "internal-feedback";
@@ -210,31 +203,22 @@ export default function ReviewSlugPage({
     setIsSubmitting(true);
 
     try {
-      const synced = await saveInternalFeedback();
+      await saveInternalFeedback();
 
-      if (rating <= 2) {
-        setSubmitted(true);
-        alert(
-          synced
-            ? "Thank you. Your feedback has been sent to the hotel."
-            : "Thank you. Your feedback has been saved locally for the hotel.",
-        );
-        return;
-      }
-
+      // Always copy the review
       await navigator.clipboard.writeText(reviewText);
 
+      // Always open Google if available
       if (googleReviewUrl) {
         window.open(googleReviewUrl, "_blank");
         alert(
           "Review copied! Paste it into the Google review page that just opened.",
         );
-        return;
+      } else {
+        alert("Review copied, but no Google review page is available yet.");
       }
 
-      alert(
-        "Review copied, but no Google review page is saved for this hotel yet.",
-      );
+      setSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -264,12 +248,13 @@ export default function ReviewSlugPage({
                 aria-label={`Rate ${index + 1} star`}
               >
                 <Star
-                  size={50}
-                  strokeWidth={1}
-                  className={`transition-colors duration-200 ${index < (hoverRating || rating)
-                    ? "fill-amber-400 text-amber-400"
-                    : "fill-slate-100 text-slate-300"
-                    }`}
+                  size={30}
+                  strokeWidth={2.5}
+                  className={`transition-colors duration-200 ${
+                    index < (hoverRating || rating)
+                      ? "fill-amber-400 text-amber-400"
+                      : "fill-slate-100 text-slate-300"
+                  }`}
                 />
               </button>
             ))}
@@ -277,32 +262,21 @@ export default function ReviewSlugPage({
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <label htmlFor="customerName" className="text-sm font-medium text-slate-600">
-              Name <span className="text-slate-400 font-normal"> </span>
-            </label>
-            <input
-              id="customerName"
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              placeholder="Jane Doe"
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label htmlFor="customerEmail" className="text-sm font-medium text-slate-600">
-              Email <span className="text-slate-400 font-normal"></span>
-            </label>
-            <input
-              id="customerEmail"
-              type="email"
-              value={customerEmail}
-              onChange={(e) => setCustomerEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
-            />
-          </div>
+          <input
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            placeholder="Name (optional)"
+            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
+          />
+          <input
+            type="email"
+            value={customerEmail}
+            onChange={(e) => setCustomerEmail(e.target.value)}
+            placeholder="Email (optional)"
+            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-indigo-500 focus:outline-none"
+          />
         </div>
+
         {/* Language Selection */}
         {/* <div className="mt-6 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
@@ -329,8 +303,7 @@ export default function ReviewSlugPage({
         {/* Service Highlights */}
         <div className="mt-8 space-y-3">
           <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
-            <Building size={16} className="text-slate-500" /> What did you like
-            about your stay?
+            <span>🏨</span> What did you like about your stay?
           </div>
           <div className="flex flex-wrap gap-2">
             {SERVICES.map((service) => (
@@ -338,10 +311,11 @@ export default function ReviewSlugPage({
                 key={service}
                 type="button"
                 onClick={() => toggleService(service)}
-                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${selectedServices.includes(service)
-                  ? "border-indigo-700 bg-indigo-50 text-indigo-900"
-                  : "border-slate-300 bg-white text-slate-600 hover:border-slate-400"
-                  }`}
+                className={`rounded-full border px-4 py-1.5 text-sm font-medium transition ${
+                  selectedServices.includes(service)
+                    ? "border-indigo-700 bg-indigo-50 text-indigo-900"
+                    : "border-slate-300 bg-white text-slate-600 hover:border-slate-400"
+                }`}
               >
                 {service}
               </button>
@@ -389,14 +363,13 @@ export default function ReviewSlugPage({
           >
             {isSubmitting ? (
               <Loader2 className="h-5 w-5 animate-spin" />
-            ) : rating >= 3 ? (
-              googleReviewUrl ? (
-                <ExternalLink className="h-5 w-5" />
-              ) : (
-                <Copy className="h-5 w-5" />
-              )
-            ) : null}
-            {isSubmitting ? "Posting..." : rating >= 3 ? "Copy & Post" : "Post"}
+            ) : googleReviewUrl ? (
+              <ExternalLink className="h-5 w-5" />
+            ) : (
+              <Copy className="h-5 w-5" />
+            )}
+
+            {isSubmitting ? "Posting..." : "Copy & Post"}
           </button>
         </div>
 
