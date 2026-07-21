@@ -63,7 +63,7 @@ export default function LayoutWrapper({
       {/* Mobile Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/30 z-30 backdrop-blur-sm"
+          className="md:hidden fixed inset-0 bg-black/50 z-30 transition-opacity"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -71,7 +71,7 @@ export default function LayoutWrapper({
       {/* Sidebar - hidden on mobile by default, shown via slide-in */}
       <div
         className={`
-          fixed top-0 left-0 z-40 h-screen
+          fixed top-0 left-0 z-40 h-screen w-72 md:w-64
           transition-transform duration-300 ease-in-out
           md:translate-x-0
           ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}

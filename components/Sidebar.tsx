@@ -70,7 +70,7 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
   ];
 
   return (
-    <aside className="top-0 left-0 w-full max-w-[18rem] md:w-64 h-full md:h-screen fixed bg-white border-r border-gray-200 flex flex-col justify-between z-20">
+    <aside className="w-full h-full bg-white border-r border-gray-200 flex flex-col justify-between">
       <div>
         {/* Logo Section */}
         <div className="relative flex items-center border-b border-gray-200 px-6 py-8 overflow-hidden min-h-[120px]">

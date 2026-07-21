@@ -72,7 +72,7 @@ export default function QrPage() {
 
   return (
     <main className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900">
-      <div className="mx-auto max-w-7xl space-y-6">
+      <div className="max-w-7xl space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold">QR Codes</h1>
@@ -120,13 +120,13 @@ export default function QrPage() {
             {sortedLinks.map((link) => (
               <article
                 key={link.slug}
-                className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm"
+                className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm min-w-0 overflow-hidden"
               >
-                <div className="flex gap-4">
-                  <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white">
+                <div className="flex flex-col sm:flex-row gap-4 min-w-0">
+                  <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-slate-200 bg-white relative mx-auto sm:mx-0">
                     {link.qrSvg ? (
                       <div
-                        className="scale-[0.42]"
+                        className="absolute inset-0 flex items-center justify-center p-2 [&>svg]:w-full [&>svg]:h-full [&>svg]:max-w-full [&>svg]:max-h-full"
                         dangerouslySetInnerHTML={{ __html: link.qrSvg }}
                       />
                     ) : (

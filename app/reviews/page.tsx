@@ -12,6 +12,7 @@ type Review = {
   customerEmail: string;
   services: string[];
   createdAt: string;
+  hotelName?: string;
 };
 
 const LOCAL_FEEDBACK_KEY = "internal-feedback";
@@ -71,7 +72,13 @@ export default function ReviewsPage() {
     setError("");
 
     try {
-      const response = await fetch("/api/feedback", { cache: "no-store" });
+      const token = typeof window !== "undefined" ? window.localStorage.getItem("JWT") || "" : "";
+      const response = await fetch("/api/feedback", {
+        cache: "no-store",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Could not load reviews.");
@@ -97,8 +104,8 @@ export default function ReviewsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-slate-50 p-6 text-slate-900">
-      <div className="mx-auto max-w-7xl space-y-6">
+    <main className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900">
+      <div className="max-w-7xl space-y-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold">Reviews</h1>
@@ -133,7 +140,7 @@ export default function ReviewsPage() {
               <thead className="bg-slate-100 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-4 py-3">Date</th>
-                  {/* <th className="px-4 py-3">Hotel Slug</th> */}
+                  <th className="px-4 py-3">Hotel</th>
                   <th className="px-4 py-3">Rating</th>
                   <th className="px-4 py-3">Customer</th>
                   <th className="px-4 py-3">Review</th>
@@ -161,9 +168,14 @@ export default function ReviewsPage() {
                       <td className="whitespace-nowrap px-4 py-4 text-slate-600">
                         {formatDate(review.createdAt)}
                       </td>
-                      {/* <<td className="whitespace-nowrap px-4 py-4 font-medium text-slate-900">
-                        {review.slug}
-                      </td>> */}
+                      <td className="px-4 py-4 text-slate-600">
+                        <div className="font-medium text-slate-800">
+                          {review.hotelName || "Unknown Hotel"}
+                        </div>
+                        <div className="text-xs text-slate-400">
+                          {review.slug}
+                        </div>
+                      </td>
                       <td className="whitespace-nowrap px-4 py-4">
                         <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 font-medium text-amber-700">
                           <Star size={14} fill="currentColor" />

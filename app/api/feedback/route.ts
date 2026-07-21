@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { query } from "@/lib/postgres";
+import { getUserEmailFromRequest } from "@/lib/auth";
 
 async function ensureFeedbackTable() {
   await query(`
@@ -25,25 +26,38 @@ type FeedbackRow = {
   customer_email: string | null;
   services: string[] | null;
   created_at: string;
+  hotel_name: string | null;
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const ownerEmail = getUserEmailFromRequest(request);
+
+    if (!ownerEmail) {
+      return NextResponse.json(
+        { error: "You must be logged in to view reviews." },
+        { status: 401 },
+      );
+    }
+
     await ensureFeedbackTable();
 
     const rows = await query<FeedbackRow>(`
       SELECT
-        id,
-        slug,
-        rating,
-        review_text,
-        customer_name,
-        customer_email,
-        services,
-        created_at
-      FROM internal_feedback
-      ORDER BY created_at DESC
-    `);
+        f.id,
+        f.slug,
+        f.rating,
+        f.review_text,
+        f.customer_name,
+        f.customer_email,
+        f.services,
+        f.created_at,
+        l.display_name AS hotel_name
+      FROM internal_feedback f
+      INNER JOIN review_links l ON f.slug = l.slug
+      WHERE l.owner_email = $1
+      ORDER BY f.created_at DESC
+    `, [ownerEmail]);
 
     return NextResponse.json({
       reviews: rows.map((row) => ({
@@ -55,6 +69,7 @@ export async function GET() {
         customerEmail: row.customer_email || "",
         services: Array.isArray(row.services) ? row.services : [],
         createdAt: row.created_at,
+        hotelName: row.hotel_name || "",
       })),
     });
   } catch (error) {

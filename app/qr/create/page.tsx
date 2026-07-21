@@ -89,7 +89,7 @@ function ColorPicker({ label, value, onChange }: ColorPickerProps) {
             aria-label={`Select ${preset}`}
           />
         ))}
-        <div className="ml-2 flex items-center">
+        <div className="flex items-center gap-3">
           <input
             type="color"
             value={value}
@@ -100,7 +100,7 @@ function ColorPicker({ label, value, onChange }: ColorPickerProps) {
             type="text"
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="ml-3 w-24 rounded-lg border border-slate-200 px-2 py-1 text-sm font-mono uppercase"
+            className="w-24 rounded-lg border border-slate-200 px-2 py-1 text-sm font-mono uppercase"
           />
         </div>
       </div>
@@ -491,9 +491,9 @@ export default function CreateQrPage() {
         </div>
 
         {/* Right Column: Live Preview */}
-        <div className="flex min-h-80 w-full flex-1 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 p-6 sm:p-8">
+        <div className="flex min-h-80 w-full flex-1 flex-col items-center justify-center rounded-2xl border border-slate-200 bg-slate-100 p-6 sm:p-8 overflow-hidden">
           <div
-            className="bg-white shadow-xl transition-all duration-300 flex items-center justify-center relative group"
+            className="bg-white shadow-xl transition-all duration-300 flex items-center justify-center relative group w-full max-w-[400px] aspect-square"
             style={{
               borderRadius: `${borderRadius}px`,
               overflow: "hidden",
@@ -503,7 +503,7 @@ export default function CreateQrPage() {
             {qrSvg ? (
               <div
                 dangerouslySetInnerHTML={{ __html: qrSvg }}
-                className="transition-transform duration-300  "
+                className="transition-transform duration-300 max-w-full [&>svg]:max-w-full [&>svg]:h-auto"
                 style={{ display: "flex" }} // Removes random bottom padding from inline SVGs
               />
             ) : (
